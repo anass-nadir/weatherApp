@@ -1,8 +1,11 @@
 <template>
   <div>
     <section
-      class="weather__card"
-      :class="{ 'weather__card-dark': darkMode }"
+      v-if="addMode ? !cityAdded && city : true"
+      :class="[
+        { 'weather__card-dark': darkMode, 'weather__card-add': addMode },
+        'weather__card'
+      ]"
     >
       <span class="city-name__text">{{ city }}</span>
       <div class="spinner-overlay" v-if="loading">
@@ -196,34 +199,54 @@
             <span class="max__text">Max</span>
           </div>
         </section>
+        <button class="add-city-btn" v-if="addMode" @click="addCity">
+          ADD CITY
+        </button>
       </template>
     </section>
+
+    <div v-if="cityAdded" class="city-added-note">
+      <h5 class="add-success-text">City has been successfully added!</h5>
+      <svg viewBox="0 0 50 50" height="5rem">
+        <circle cx="25" cy="25" r="25" fill="#25ae88" />
+        <path
+          fill="none"
+          stroke="#fff"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-miterlimit="10"
+          stroke-width="2"
+          d="M38 15L22 33l-10-8"
+        />
+      </svg>
+    </div>
   </div>
 </template>
 
 <script>
   import { getWeather, getForecast } from '../services/weather';
-
+  import { db } from '../services/db';
   export default {
-    props: ['darkMode', 'city'],
+    props: ['darkMode', 'city', 'addMode'],
     data() {
       return {
         loading: true,
         state: { text: '', description: '' },
         maxTemp: '',
         minTemp: '',
+        cityAdded: '',
         temp: ''
       };
     },
     mounted() {
-      const getWeatherEndpoint = getWeather(this.city, 'metric').then((res) => {
+      const getWeatherEndpoint = getWeather(this.city).then((res) => {
         this.state = {
           text: res.weather[0].main,
           description: res.weather[0].description
         };
         this.temp = Math.ceil(res.main.temp);
       });
-      const getForecastEndpoint = getForecast(this.city, 'metric').then(
+      const getForecastEndpoint = getForecast(this.city).then(
         (res) => {
           this.maxTemp = Math.round(res.list[0]?.main.temp_max);
           this.minTemp = Math.round(res.list[0]?.main.temp_min);
@@ -248,7 +271,24 @@
         () => (this.loading = false)
       );
     },
-    methods: {}
+    methods: {
+      addCity() {
+        db.collection('cities')
+          .add({
+            name: this.city
+          })
+          .then(() => {
+            this.cityAdded = true;
+            setTimeout(() => {
+              this.cityAdded = false;
+              this.$emit('cityStored');
+            }, 2000);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
+    }
   };
 </script>
 
@@ -267,6 +307,13 @@
     background-color: white;
     border-radius: 1.75rem;
     animation: slideup 1s ease-in-out, fadein 1.25s ease-in-out 0ms 1;
+  }
+
+  .weather__card-add {
+    cursor: auto;
+    margin: 0 auto;
+    box-shadow: rgba(0, 0, 255, 0.5);
+    width: 80%;
   }
 
   .weather__card-dark {
@@ -350,6 +397,36 @@
 
   .weather-icon__container > svg {
     width: 10rem;
+  }
+
+  .add-city-btn {
+    outline: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 3rem;
+    padding: 1rem 2rem;
+    color: white;
+    margin-top: 1rem;
+    background-color: #2b244d;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+
+  .add-city-btn:hover {
+    background-color: #31feae;
+  }
+
+  .city-added-note {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    animation: fadein 1s ease-in-out;
+    width: 100%;
+  }
+
+  .add-success-text {
+    font-size: 1.25rem;
   }
   .spinner-overlay {
     display: flex;

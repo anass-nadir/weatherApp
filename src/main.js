@@ -4,6 +4,7 @@ import VueRouter from 'vue-router';
 import { firestorePlugin } from 'vuefire';
 
 import Home from './pages/Home';
+import AddCity from './pages/AddCity';
 
 Vue.use(VueRouter);
 Vue.use(firestorePlugin);
@@ -13,6 +14,11 @@ const routes = [
     path: '/',
     name: 'home',
     component: Home
+  },
+  {
+    path: '/add',
+    name: 'addCity',
+    component: AddCity
   }
 ];
 

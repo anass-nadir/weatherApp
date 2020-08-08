@@ -122,6 +122,14 @@
 </script>
 
 <style>
+  body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    width: 100vw;
+    overflow-x: hidden;
+  }
   .root__container {
     width: 100%;
     min-height: 100vh;
@@ -272,10 +280,6 @@
       width: 100%;
     }
 
-    .logo__icon {
-      margin: 0 auto;
-    }
-
     .hamburger__icon {
       margin-right: 0;
     }
@@ -291,5 +295,31 @@
 
   .hamburger__icon__fill {
     fill: #594e78;
+  }
+  @keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slidedown {
+    from {
+      transform: translateY(-25%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideup {
+    from {
+      transform: translateY(50%);
+    }
+    to {
+      transform: translateY(0);
+    }
   }
 </style>
