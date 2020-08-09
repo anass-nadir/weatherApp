@@ -1,6 +1,7 @@
 <template>
   <div>
     <section
+     @click="$router.push({path: `/details/${city}`})"
       v-if="addMode ? !cityAdded && city : true"
       :class="[
         { 'weather__card-dark': darkMode, 'weather__card-add': addMode },
@@ -225,9 +226,10 @@
 
 <script>
   import { getWeather, getForecast } from '../services/weather';
+  import { EventBus } from '../eventBus';
   import { db } from '../services/db';
   export default {
-    props: ['darkMode', 'city', 'addMode'],
+    props: ['city', 'addMode'],
     data() {
       return {
         loading: true,
@@ -235,7 +237,8 @@
         maxTemp: '',
         minTemp: '',
         cityAdded: '',
-        temp: ''
+        temp: '',
+        darkMode: localStorage.getItem('dark-mode') || false
       };
     },
     mounted() {
@@ -270,6 +273,7 @@
       Promise.allSettled([getWeatherEndpoint, getForecastEndpoint]).then(
         () => (this.loading = false)
       );
+      EventBus.$on('switch-darkmode', mode =>  this.darkMode = mode )
     },
     methods: {
       addCity() {

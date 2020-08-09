@@ -97,6 +97,7 @@
 
 <script>
   import Menu from './components/Menu';
+  import { EventBus } from './eventBus';
   export default {
     name: 'App',
     components: {
@@ -105,7 +106,7 @@
     data() {
       return {
         showMenu: false,
-        darkModeActive: false,
+        darkModeActive: localStorage.getItem('dark-mode') || false,
         userEmail: '',
         loggedIn: true
       };
@@ -116,6 +117,10 @@
       },
       modeToggleSwitch() {
         this.darkModeActive = !this.darkModeActive;
+        this.$nextTick(() => {
+          localStorage.setItem('dark-mode', this.darkModeActive)
+          EventBus.$emit('switch-darkmode', this.darkModeActive);
+        })
       }
     }
   };
