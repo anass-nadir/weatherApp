@@ -1,7 +1,7 @@
 <template>
   <div>
     <section
-     @click="$router.push({path: `/details/${city}`})"
+     @click="!addMode && $router.push({path: `/details/${city}`})"
       v-if="addMode ? !cityAdded && city : true"
       :class="[
         { 'weather__card-dark': darkMode, 'weather__card-add': addMode },

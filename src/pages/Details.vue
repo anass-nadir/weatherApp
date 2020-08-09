@@ -323,7 +323,7 @@
   };
 </script>
 
-<style>
+<style scoped>
   .details-page__wrapper {
     background: linear-gradient(to top, #86dbff 0%, #e0c3fc 100%);
     display: flex;
@@ -609,6 +609,14 @@
     to {
       transform-origin: center;
       transform: scale(1) translateY(-50%) rotate(360deg);
+    }
+  }
+  @keyframes scaleup {
+    from {
+      transform: scale(0);
+    }
+    to {
+      transform: scale(1);
     }
   }
 </style>
