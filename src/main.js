@@ -1,38 +1,15 @@
 import Vue from 'vue';
 import App from './App.vue';
-import VueRouter from 'vue-router';
 import { firestorePlugin } from 'vuefire';
+import store from "./store";
+import router from './router'
 
-import Home from './pages/Home';
-import AddCity from './pages/AddCity';
-import Details from './pages/Details';
-
-Vue.use(VueRouter);
 Vue.use(firestorePlugin);
 Vue.config.productionTip = false;
-const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: Home
-  },
-  {
-    path: '/add',
-    name: 'addCity',
-    component: AddCity
-  },
-  {
-    path: '/details/:city',
-    name: 'details',
-    component: Details
-  }
-];
 
-const router = new VueRouter({
-  routes
-});
 
 new Vue({
   router,
+  store,
   render: (h) => h(App)
 }).$mount('#app');

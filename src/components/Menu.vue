@@ -17,20 +17,25 @@
     >
       <section :class="[{ 'menu-header-dark': darkModeActive }, 'menu-header']">
         <span class="greeting__text">Welcome Back</span>
-        <div class="profile-image__container">
-          <img
-            src="https://www.jamf.com/jamf-nation/img/default-avatars/generic-user-purple.png"
-            alt="profile-image"
-            class="profile__image"
-          />
-        </div>
-        <div class="account-details">
-          <span class="name__text">{{ userEmail }}</span>
-          <span class="email__text">Free Plan</span>
-        </div>
+        <template v-if="userEmail">
+          <div class="profile-image__container">
+            <img
+              src="https://www.jamf.com/jamf-nation/img/default-avatars/generic-user-purple.png"
+              alt="profile-image"
+              class="profile__image"
+            />
+          </div>
+          <div class="account-details">
+            <span class="name__text">{{ userEmail }}</span>
+            <span class="email__text">Free Plan</span>
+          </div>
+        </template>
       </section>
       <section class="menu-body">
-        <ul :class="[{ 'menu-links-dark': darkModeActive }, 'menu-links']">
+        <ul
+          v-if="userEmail"
+          :class="[{ 'menu-links-dark': darkModeActive }, 'menu-links']"
+        >
           <router-link
             tag="li"
             class="menu-link"
@@ -47,7 +52,20 @@
             to="/add"
             >Add City</router-link
           >
-          <li class="menu-link">Logout</li>
+          <li @click="logout" class="menu-link">Logout</li>
+        </ul>
+        <ul
+          v-else
+          :class="[{ 'menu-links-dark': darkModeActive }, 'menu-links']"
+        >
+          <router-link
+            tag="li"
+            class="menu-link"
+            exact-active-class="link-active"
+            @click="toggleMenu"
+            to="/login"
+            >Login</router-link
+          >
         </ul>
       </section>
       <section class="menu-footer">
@@ -60,12 +78,29 @@
 </template>
 
 <script>
+  import firebase from 'firebase/app';
+
   export default {
     props: ['toggleMenu', 'showMenu', 'darkModeActive'],
-    data() {
-      return {
-        userEmail: 'anass.nadir@gmail.com'
-      };
+    computed: {
+      userEmail() {
+        return this.$store.getters.user?.email || null;
+      }
+    },
+    methods: {
+      logout() {
+        firebase
+          .auth()
+          .signOut()
+          .then(() => {
+            this.$store.dispatch('fetchUser');
+            this.$nextTick(() =>
+              this.$router.push({
+                path: '/login'
+              })
+            );
+          });
+      }
     }
   };
 </script>
