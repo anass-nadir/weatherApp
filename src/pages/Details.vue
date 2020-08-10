@@ -245,7 +245,6 @@
 </template>
 
 <script>
-  import { EventBus } from '../eventBus';
   import { getWeather, getForecast } from '../services/weather';
 
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
@@ -259,7 +258,6 @@
         hum: '',
         wind: '',
         today: days[todayNumberInWeek],
-        darkMode: localStorage.getItem('dark-mode') || false,
         daysForecast: ''
       };
     },
@@ -279,15 +277,15 @@
           default:
             return require('../assets/cities/default.svg');
         }
+      },
+      darkMode() {
+        return this.$store.getters.darkMode;
       }
     },
     beforeRouteEnter(to, from, next) {
       Promise.all([getWeather(to.params.city), getForecast(to.params.city)])
         .then((data) => next((vm) => vm.setData(data)))
         .catch((err) => next((vm) => vm.setData(err)));
-    },
-    mounted() {
-      EventBus.$on('switch-darkmode', (mode) => (this.darkMode = mode));
     },
     methods: {
       setData(data) {

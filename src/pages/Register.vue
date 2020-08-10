@@ -1,39 +1,56 @@
 <template>
   <div class="main__container">
-    <div class="login-card">
-      <main class="login-content">
-        <span class="login-header">Login</span>
-        <form class="login-form" @submit.prevent="submit">
+    <div class="signup-card">
+      <main class="signup-content">
+        <span class="signup-header">Signup</span>
+        <form class="signup-form" @submit.prevent="signup">
           <input
             v-model="email"
             type="email"
+            autofocus
             placeholder="Email"
             name="email"
-            class="login-input"
-            autocomplete
+            class="signup-input"
             required
+            autocomplete
           />
           <input
             v-model="password"
             type="password"
             placeholder="Password"
             name="password"
-            class="login-input"
+            class="signup-input"
             minlength="6"
             required
             autocomplete
           />
-          <input type="submit" name="submit" value="Login" class="login-btn" />
+          <input
+            v-model="passwordConfirm"
+            type="password"
+            placeholder="Password Confirmation"
+            class="signup-input"
+            minlength="6"
+            required
+            autocomplete
+          />
+          <input
+            type="submit"
+            name="submit"
+            value="Signup"
+            class="signup-btn"
+          />
         </form>
-        <div class="signup-link-wrapper">
-          <span class="signup-notice">Don't have an account?</span>
-          <a class="signup-link" @click="$router.push({ path: '/register' })">Sign up</a>
+        <div class="login-link-wrapper">
+          <span class="login-notice">Already Have an account?</span>
+          <a class="login-link" @click="$router.push({ path: '/login' })"
+            >login</a
+          >
         </div>
       </main>
-      <aside class="login-aside">
-        <div class="login-aside-overlay"></div>
-        <h1 class="login-welcome-text">Welcome Back!</h1>
-        <hr class="login-aside-hr" />
+      <aside class="signup-aside">
+        <div class="signup-aside-overlay"></div>
+        <h1 class="signup-welcome-text">Welcome Back!</h1>
+        <hr class="signup-aside-hr" />
       </aside>
     </div>
   </div>
@@ -42,21 +59,29 @@
 <script>
   import firebase from 'firebase/app';
   export default {
-    name:'Login',
+    name: 'Register',
     data() {
       return {
         email: '',
         password: '',
+        passwordConfirm: '',
         error: ''
       };
     },
     methods: {
-      submit() {
+      signup() {
+        if (!this.email || !this.password || !this.passwordConfirm) {
+          this.error = 'please fill all the fields';
+          return;
+        } else if (this.password !== this.passwordConfirm) {
+          this.error = 'passwords mismatch';
+          return;
+        }
         firebase
           .auth()
-          .signInWithEmailAndPassword(this.email, this.password)
+          .createUserWithEmailAndPassword(this.email, this.password)
           .catch((err) => {
-            this.error = err.message
+            this.error = err.message;
           });
       }
     }
@@ -73,7 +98,7 @@
     overflow: hidden;
   }
 
-  .login-card {
+  .signup-card {
     position: relative;
     display: flex;
     background-color: #ffffff;
@@ -84,17 +109,17 @@
     animation: fadein 1s ease-in-out;
   }
 
-  .login-header {
+  .signup-header {
+    position: absolute;
+    top: 5rem;
     font-size: 2.5rem;
-    display: block;
-    margin-bottom: 2rem;
     color: #0c1066;
     letter-spacing: 0.2rem;
     font-weight: bold;
-    animation: fadein 1.75s ease-in-out;
+    animation: slidedown 1.5s ease-in-out;
   }
 
-  .login-content {
+  .signup-content {
     flex: 2 2;
     display: flex;
     flex-flow: column;
@@ -104,7 +129,7 @@
     min-height: 100%;
   }
 
-  .login-form {
+  .signup-form {
     display: flex;
     flex-flow: column;
     width: 80%;
@@ -112,7 +137,7 @@
     animation: slidedown 2s ease-in-out;
   }
 
-  .login-aside {
+  .signup-aside {
     animation: fadein 2.25s ease-in-out;
     flex: 3 3;
     display: flex;
@@ -126,7 +151,7 @@
     position: relative;
   }
 
-  .login-aside-overlay {
+  .signup-aside-overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -136,7 +161,7 @@
     border-radius: 0 10px 10px 0;
   }
 
-  .login-aside-hr {
+  .signup-aside-hr {
     height: 0.5rem;
     width: 8rem;
     border: none;
@@ -148,7 +173,7 @@
     animation: slideright 4s ease-out;
   }
 
-  .login-welcome-text {
+  .signup-welcome-text {
     color: white;
     letter-spacing: 0.03rem;
     margin: 0 0 2rem 3rem;
@@ -158,7 +183,7 @@
     animation: slideright 2s ease-out;
   }
 
-  .login-input {
+  .signup-input {
     margin: 1rem 0;
     padding: 1.5rem;
     border-radius: 2rem;
@@ -168,7 +193,7 @@
     width: 80%;
   }
 
-  .login-btn {
+  .signup-btn {
     background-color: #00ff9b;
     padding: 1rem;
     border-radius: 2rem;
@@ -182,11 +207,11 @@
     box-shadow: 0 0 2rem rgba(0, 0, 255, 0.1);
   }
 
-  .login-btn:hover {
+  .signup-btn:hover {
     background: linear-gradient(to right, #03a9f4, #00ff9b);
   }
 
-  .login-input::placeholder {
+  .signup-input::placeholder {
     color: #39437a;
     font-size: 0.9rem;
   }
@@ -199,23 +224,17 @@
     background: lightgray;
   }
 
-  .signup-link-wrapper {
+  .login-link-wrapper {
     margin-top: 3rem;
     animation: slideup 1s ease-in-out;
   }
 
-  .signup-link {
+  .login-link {
     text-transform: uppercase;
     margin-top: 1rem;
     text-decoration: none;
     color: #ff3a82;
     margin-left: 1rem;
     cursor: pointer;
-  }
-
-  @media screen and (max-width: 959px) {
-    .login-aside {
-      display: none;
-    }
   }
 </style>

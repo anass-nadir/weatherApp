@@ -67,7 +67,7 @@
 
           <label class="toggle-button__container">
             <input
-              @click="modeToggleSwitch"
+              @click="$store.commit('SWITCH_DARK_MODE')"
               type="checkbox"
               class="mode-toggle__input"
             />
@@ -97,7 +97,6 @@
 
 <script>
   import Menu from './components/Menu';
-  import { EventBus } from './eventBus';
   export default {
     name: 'App',
     components: {
@@ -106,21 +105,18 @@
     data() {
       return {
         showMenu: false,
-        darkModeActive: localStorage.getItem('dark-mode') || false,
         userEmail: '',
         loggedIn: true
       };
     },
+    computed: {
+      darkModeActive() {
+        return this.$store.getters.darkMode;
+      }
+    },
     methods: {
       toggleMenu() {
         this.showMenu = !this.showMenu;
-      },
-      modeToggleSwitch() {
-        this.darkModeActive = !this.darkModeActive;
-        this.$nextTick(() => {
-          localStorage.setItem('dark-mode', this.darkModeActive)
-          EventBus.$emit('switch-darkmode', this.darkModeActive);
-        })
       }
     }
   };

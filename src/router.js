@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import AddCity from './pages/AddCity';
 import Details from './pages/Details';
 import Login from './pages/Login';
+import Register from './pages/Register';
 
 Vue.use(VueRouter);
 
@@ -39,6 +40,11 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register
   }
 ];
 
@@ -48,10 +54,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if (
-    to.matched.some((item) => item.meta.auth) &&
-    !store.getters.user
-  ) {
+  if (to.matched.some((item) => item.meta.auth) && !store.getters.user) {
     firebase.auth().onAuthStateChanged((user) => {
       if (!user) {
         next({

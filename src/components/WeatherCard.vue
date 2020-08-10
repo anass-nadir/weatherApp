@@ -226,8 +226,7 @@
 
 <script>
   import { getWeather, getForecast } from '../services/weather';
-  import { EventBus } from '../eventBus';
-  import { db } from '../services/db';
+  import { db } from '../services/firebase';
   export default {
     props: ['city', 'addMode'],
     data() {
@@ -237,9 +236,13 @@
         maxTemp: '',
         minTemp: '',
         cityAdded: '',
-        temp: '',
-        darkMode: localStorage.getItem('dark-mode') || false
+        temp: ''
       };
+    },
+    computed: {
+      darkMode() {
+        return this.$store.getters.darkMode
+      }
     },
     mounted() {
       const getWeatherEndpoint = getWeather(this.city).then((res) => {
@@ -273,12 +276,11 @@
       Promise.allSettled([getWeatherEndpoint, getForecastEndpoint]).then(
         () => (this.loading = false)
       );
-      EventBus.$on('switch-darkmode', mode =>  this.darkMode = mode )
     },
     methods: {
       addCity() {
-        db.collection('cities')
-          .add({
+        db.collection('users').doc(this.$store.getters.user.uid)
+          .collection('cities').add({
             name: this.city
           })
           .then(() => {

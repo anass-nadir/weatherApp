@@ -66,6 +66,14 @@
             to="/login"
             >Login</router-link
           >
+          <router-link
+            tag="li"
+            class="menu-link"
+            exact-active-class="link-active"
+            @click="toggleMenu"
+            to="/register"
+            >Register</router-link
+          >
         </ul>
       </section>
       <section class="menu-footer">

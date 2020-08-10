@@ -1019,16 +1019,12 @@
 </template>
 
 <script>
-  import { EventBus } from '../eventBus';
   export default {
     name: 'AddCard',
-    data() {
-      return {
-        darkMode: localStorage.getItem('dark-mode') || false
-      };
-    },
-    mounted() {
-      EventBus.$on('switch-darkmode', (mode) => (this.darkMode = mode));
+    computed: {
+      darkMode() {
+        return this.$store.getters.darkMode;
+      }
     }
   };
 </script>
