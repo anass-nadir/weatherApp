@@ -12,6 +12,17 @@ jobs:
         uses: actions/checkout@master
       - name: Install Dependencies
         run: npm install
+      - name: print secrets
+        run: |
+              echo "VUE_APP_FIREBASE_ID=$VUE_APP_FIREBASE_ID" >> .env
+              echo "VUE_APP_WEATHER_APP_ID=$VUE_APP_WEATHER_APP_ID" >> .env
+              echo "VUE_APP_FIREBASE_KEY=$VUE_APP_FIREBASE_KEY" >> .env
+              cat .env
+        shell: bash
+        env:
+          VUE_APP_FIREBASE_ID: ${{ secrets.VUE_APP_FIREBASE_ID }}
+          VUE_APP_WEATHER_APP_ID: ${{ secrets.VUE_APP_WEATHER_APP_ID }}
+          VUE_APP_FIREBASE_KEY: ${{ secrets.VUE_APP_FIREBASE_KEY }}
       - name: Build
         run: npm run build
       - name: Archive Production Artifact

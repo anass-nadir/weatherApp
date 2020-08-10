@@ -2,6 +2,7 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 // Get a Firestore instance
+console.log(process.env)
 export const db = firebase
   .initializeApp({
     apiKey: process.env.VUE_APP_FIREBASE_KEY,
