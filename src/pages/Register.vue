@@ -54,21 +54,24 @@
       </aside>
     </div>
     <error @hide-banner="error = ''" :message="error" />
+    <spinner v-if="loading" />
   </div>
 </template>
 
 <script>
   import firebase from 'firebase/app';
   import Error from '../components/Error';
+  import Spinner from '../components/Spinner';
   export default {
     name: 'Register',
-    components: { Error },
+    components: { Error, Spinner },
     data() {
       return {
         email: '',
         password: '',
         passwordConfirm: '',
-        error: ''
+        error: '',
+        loading: false
       };
     },
     methods: {
@@ -80,12 +83,14 @@
           this.error = 'passwords mismatch';
           return;
         }
+        this.loading = true;
         firebase
           .auth()
           .createUserWithEmailAndPassword(this.email, this.password)
           .catch((err) => {
             this.error = err.message;
-          });
+          })
+          .finally(() => (this.loading = false));
       }
     }
   };

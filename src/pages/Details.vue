@@ -1,5 +1,7 @@
 <template>
+  <spinner v-if="loading" />
   <div
+    v-else
     :class="[
       { 'details-page__wrapper-dark': darkMode },
       'details-page__wrapper'
@@ -248,11 +250,12 @@
 <script>
   import { getWeather, getForecast } from '../services/weather';
   import Error from '../components/Error';
+  import Spinner from '../components/Spinner';
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
     todayNumberInWeek = new Date().getDay();
   export default {
     name: 'Details',
-    components: { Error },
+    components: { Error, Spinner },
     data() {
       return {
         state: '',
@@ -261,7 +264,8 @@
         wind: '',
         today: days[todayNumberInWeek],
         daysForecast: '',
-        errorMessage: ''
+        errorMessage: '',
+        loading: true
       };
     },
     computed: {
@@ -294,6 +298,7 @@
       setData(data) {
         if (data.some((item) => item.cod == 404)) {
           this.errorMessage = 'city not found';
+          this.loading = false;
           return;
         }
         this.state = data[0].weather[0].main;
@@ -319,6 +324,7 @@
         });
         delete dates[Object.keys(dates)[0]];
         this.daysForecast = dates;
+        this.loading = false;
       }
     }
   };

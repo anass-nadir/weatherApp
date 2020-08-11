@@ -323,4 +323,12 @@
       transform: translateY(0);
     }
   }
+  @keyframes slideright {
+    from {
+      transform: translateX(-50%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
 </style>

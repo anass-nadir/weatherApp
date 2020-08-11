@@ -27,7 +27,9 @@
         </form>
         <div class="signup-link-wrapper">
           <span class="signup-notice">Don't have an account?</span>
-          <a class="signup-link" @click="$router.push({ path: '/register' })">Sign up</a>
+          <a class="signup-link" @click="$router.push({ path: '/register' })"
+            >Sign up</a
+          >
         </div>
       </main>
       <aside class="login-aside">
@@ -37,30 +39,35 @@
       </aside>
     </div>
     <error @hide-banner="error = ''" :message="error" />
+    <spinner v-if="loading" />
   </div>
 </template>
 
 <script>
   import firebase from 'firebase/app';
-  import Error from '../components/Error' 
+  import Error from '../components/Error';
+  import Spinner from '../components/Spinner';
   export default {
-    name:'Login',
-    components: { Error },
+    name: 'Login',
+    components: { Error, Spinner },
     data() {
       return {
         email: '',
         password: '',
-        error: ''
+        error: '',
+        loading: false
       };
     },
     methods: {
       submit() {
+        this.loading = true;
         firebase
           .auth()
           .signInWithEmailAndPassword(this.email, this.password)
           .catch((err) => {
-            this.error = err.message
-          });
+            this.error = err.message;
+          })
+          .finally(() => (this.loading = false));
       }
     }
   };
@@ -146,7 +153,6 @@
     outline: none;
     background-color: white;
     position: relative;
-    z-index: 5;
     margin: 0 0 8rem 3rem;
     animation: slideright 4s ease-out;
   }
@@ -157,7 +163,6 @@
     margin: 0 0 2rem 3rem;
     font-size: 2.75rem;
     position: relative;
-    z-index: 5;
     animation: slideright 2s ease-out;
   }
 
