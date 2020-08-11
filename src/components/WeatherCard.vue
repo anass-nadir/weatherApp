@@ -1,7 +1,7 @@
 <template>
   <div>
     <section
-     @click="!addMode && $router.push({path: `/details/${city}`})"
+      @click="!addMode && $router.push({ path: `/details/${city}` })"
       v-if="addMode ? !cityAdded && city : true"
       :class="[
         { 'weather__card-dark': darkMode, 'weather__card-add': addMode },
@@ -221,14 +221,26 @@
         />
       </svg>
     </div>
+    <error @hide-banner="error = ''" :message="error" />
   </div>
 </template>
 
 <script>
   import { getWeather, getForecast } from '../services/weather';
   import { db } from '../services/firebase';
+  import Error from './Error';
   export default {
-    props: ['city', 'addMode'],
+    name: 'WeatherCard',
+    components: { Error },
+    props: {
+      city: {
+        type: String,
+        required: true
+      },
+      addMode: {
+        type: Boolean
+      }
+    },
     data() {
       return {
         loading: true,
@@ -236,12 +248,13 @@
         maxTemp: '',
         minTemp: '',
         cityAdded: '',
-        temp: ''
+        temp: '',
+        error: ''
       };
     },
     computed: {
       darkMode() {
-        return this.$store.getters.darkMode
+        return this.$store.getters.darkMode;
       }
     },
     mounted() {
@@ -279,8 +292,10 @@
     },
     methods: {
       addCity() {
-        db.collection('users').doc(this.$store.getters.user.uid)
-          .collection('cities').add({
+        db.collection('users')
+          .doc(this.$store.getters.user.uid)
+          .collection('cities')
+          .add({
             name: this.city
           })
           .then(() => {
@@ -291,7 +306,7 @@
             }, 2000);
           })
           .catch((error) => {
-            console.error(error);
+            this.error = error.message;
           });
       }
     }

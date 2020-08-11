@@ -241,16 +241,18 @@
         </section>
       </main>
     </section>
+    <error @hide-banner="errorMessage = ''" :message="errorMessage" />
   </div>
 </template>
 
 <script>
   import { getWeather, getForecast } from '../services/weather';
-
+  import Error from '../components/Error';
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
     todayNumberInWeek = new Date().getDay();
   export default {
     name: 'Details',
+    components: { Error },
     data() {
       return {
         state: '',
@@ -258,7 +260,8 @@
         hum: '',
         wind: '',
         today: days[todayNumberInWeek],
-        daysForecast: ''
+        daysForecast: '',
+        errorMessage: ''
       };
     },
     computed: {

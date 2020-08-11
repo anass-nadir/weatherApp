@@ -53,13 +53,16 @@
         <hr class="signup-aside-hr" />
       </aside>
     </div>
+    <error @hide-banner="error = ''" :message="error" />
   </div>
 </template>
 
 <script>
   import firebase from 'firebase/app';
+  import Error from '../components/Error';
   export default {
     name: 'Register',
+    components: { Error },
     data() {
       return {
         email: '',

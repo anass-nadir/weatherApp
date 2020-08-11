@@ -89,7 +89,20 @@
   import firebase from 'firebase/app';
 
   export default {
-    props: ['toggleMenu', 'showMenu', 'darkModeActive'],
+    props: {
+      toggleMenu: {
+        type: Function,
+        required: true
+      },
+      showMenu: {
+        type: Boolean,
+        required: true
+      },
+      darkModeActive: {
+        type: Boolean,
+        required: true
+      }
+    },
     computed: {
       userEmail() {
         return this.$store.getters.user?.email || null;

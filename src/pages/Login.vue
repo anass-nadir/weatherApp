@@ -36,13 +36,16 @@
         <hr class="login-aside-hr" />
       </aside>
     </div>
+    <error @hide-banner="error = ''" :message="error" />
   </div>
 </template>
 
 <script>
   import firebase from 'firebase/app';
+  import Error from '../components/Error' 
   export default {
     name:'Login',
+    components: { Error },
     data() {
       return {
         email: '',
