@@ -607,6 +607,9 @@
     .city-name__container {
       padding-bottom: 0;
     }
+    .forecast__container {
+      flex-flow: column;
+    }
   }
   @keyframes scaleup-circle {
     from {

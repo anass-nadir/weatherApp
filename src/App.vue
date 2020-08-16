@@ -123,13 +123,23 @@
 </script>
 
 <style>
+  @import url('https://fonts.googleapis.com/css?family=Dosis:300,400,700,800&display=swap');
+  html {
+    height: 100%;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    line-height: 1.15;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  }
+
+  html,
   body {
-    font-family: sans-serif;
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    width: 100vw;
+    font-weight: 400;
+    font-family: 'Dosis', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    scroll-behavior: smooth;
     overflow-x: hidden;
+    background-color: #2b244d;
   }
   .root__container {
     width: 100%;

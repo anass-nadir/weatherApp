@@ -57,5 +57,6 @@
     flex-wrap: wrap;
     min-height: 90vh;
     position: relative;
+    overflow: hidden;
   }
 </style>
