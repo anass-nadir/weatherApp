@@ -245,4 +245,9 @@
     margin-left: 1rem;
     cursor: pointer;
   }
+   @media screen and (max-width: 959px) {
+    .signup-aside {
+      display: none;
+    }
+  }
 </style>
