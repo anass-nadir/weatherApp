@@ -1,5 +1,4 @@
 <template>
-  <div class="add-wrapper">
     <section class="main-card">
       <div class="city-search-wrapper">
         <div class="city-search-header">
@@ -39,7 +38,6 @@
         </div>
       </div>
     </section>
-  </div>
 </template>
 
 <script>
@@ -91,12 +89,12 @@
 
 <style scoped>
   .main-card {
-    height: 87vh;
+    min-height: 87vh;
     width: 90vw;
     background-color: #fff;
     border-radius: 1rem;
     display: flex;
-    margin-top: -4rem;
+    margin: 20px 0;
   }
 
   .city-search-wrapper {
@@ -105,11 +103,11 @@
     flex: 1 1;
     position: relative;
     overflow-y: auto;
+    padding: 40px 0;
   }
 
   .city-search-header {
     width: 100%;
-    min-height: 40%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -118,7 +116,6 @@
 
   .city-search-body {
     width: 100%;
-    min-height: 60%;
     display: flex;
     justify-content: center;
   }
@@ -160,27 +157,7 @@
     word-break: break-all;
   }
 
-  ::v-deep .weather__card-add {
-    margin: 2rem 0;
-    min-width: 28rem;
-  }
-
   @media screen and (max-width: 959px) {
-    ::v-deep .weather__card-add {
-      width: 90%;
-      margin-bottom: 2rem;
-    }
-
-    .add-wrapper {
-      flex-flow: column;
-    }
-
-    .main-card {
-      flex-flow: column;
-      margin-left: -1rem;
-      margin-bottom: 2rem;
-      height: auto;
-    }
 
     .city-search-title {
       margin: 2rem;

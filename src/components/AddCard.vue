@@ -1058,7 +1058,7 @@
   }
 
   .city__illustration {
-    width: 20rem;
+    width: 100%;
   }
 
   .body__container {
@@ -1159,5 +1159,10 @@
   #City_Illustration1 .cls-22 {
     stroke: #a1ffd9;
     stroke-width: 3px;
+  }
+  @media screen and (max-width: 959px) {
+    .add__card {
+      width: 16rem;
+    }
   }
 </style>

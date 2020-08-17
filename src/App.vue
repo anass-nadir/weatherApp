@@ -10,7 +10,6 @@
     >
       <header
         :class="[{ 'main__header-dark': darkModeActive }, 'main__header']"
-        v-if="loggedIn"
       >
         <div class="left__section">
           <svg
@@ -104,9 +103,7 @@
     },
     data() {
       return {
-        showMenu: false,
-        userEmail: '',
-        loggedIn: true
+        showMenu: false
       };
     },
     computed: {

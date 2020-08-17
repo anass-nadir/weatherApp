@@ -53,7 +53,7 @@
         <hr class="signup-aside-hr" />
       </aside>
     </div>
-    <error @hide-banner="error = ''" :message="error" />
+    <error v-if="error" @hide-banner="error = ''" :message="error" />
     <spinner v-if="loading" />
   </div>
 </template>
@@ -104,6 +104,7 @@
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    margin: 20px 0;
   }
 
   .signup-card {
@@ -118,8 +119,8 @@
   }
 
   .signup-header {
-    position: absolute;
-    top: 5rem;
+    display: block;
+    margin-bottom: 2rem;
     font-size: 2.5rem;
     color: #0c1066;
     letter-spacing: 0.2rem;
@@ -135,6 +136,7 @@
     align-items: center;
     animation: fadein 1.5s ease-in-out;
     min-height: 100%;
+    padding: 40px 0;
   }
 
   .signup-form {

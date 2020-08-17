@@ -54,30 +54,23 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some((item) => item.meta.auth) && !store.getters.user) {
+  if (to.matched.some((item) => item.meta.auth)) {
+    if (store.getters.user) return next();
     firebase.auth().onAuthStateChanged((user) => {
-      if (!user) {
-        next({
+      if (!user)
+        return next({
           path: '/login'
         });
-      } else {
-        store.dispatch('fetchUser', user);
-        next();
-      }
-    });
-  } else if (to.matched.some((item) => !item.meta.auth)) {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (!user) {
-        next();
-      } else {
-        !store.getters.user && store.dispatch('fetchUser', user);
-        next({
-          path: '/'
-        });
-      }
+      store.dispatch('fetchUser', user);
+      next();
     });
   } else {
-    next();
+    firebase.auth().onAuthStateChanged((user) => {
+      if (!user) return next();
+      next({
+        path: '/'
+      });
+    });
   }
 });
 export default router;

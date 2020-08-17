@@ -40,7 +40,7 @@
           .get()
           .then((doc) => {
             if (doc.size > 0) {
-              this.cities = doc.docs.map((item) => item.data().name);
+              this.cities = new Set(doc.docs.map((item) => item.data().name));
             }
           })
           .finally(() => this.$nextTick(() => (this.loading = false)));

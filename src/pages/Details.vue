@@ -243,7 +243,7 @@
         </section>
       </main>
     </section>
-    <error @hide-banner="errorMessage = ''" :message="errorMessage" />
+    <error v-if="errorMessage" @hide-banner="errorMessage = ''" :message="errorMessage" />
   </div>
 </template>
 

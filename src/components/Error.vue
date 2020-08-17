@@ -60,4 +60,17 @@
     font-weight: bold;
     color: white;
   }
+  @media screen and (max-width: 959px) {
+    .error-wrapper {
+      padding: 20px;
+      height: fit-content;
+      width: fit-content;
+    }
+    .error-message {
+      font-size: 1rem;
+      width: auto;
+      letter-spacing: 0;
+      white-space: normal;
+    }
+  }
 </style>

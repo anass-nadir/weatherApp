@@ -38,7 +38,7 @@
         <hr class="login-aside-hr" />
       </aside>
     </div>
-    <error @hide-banner="error = ''" :message="error" />
+    <error v-if="error" @hide-banner="error = ''" :message="error" />
     <spinner v-if="loading" />
   </div>
 </template>
@@ -81,6 +81,7 @@
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    margin: 20px 0;
   }
 
   .login-card {
@@ -112,6 +113,7 @@
     align-items: center;
     animation: fadein 1.5s ease-in-out;
     min-height: 100%;
+    padding: 40px 0;
   }
 
   .login-form {
